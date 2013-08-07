@@ -10,7 +10,7 @@ $(document).ready(function(){
 ```
 ### Style using CSS however you like
 ```CSS
-.customSelect { 
+.customSelect {
 /* This is the default class that is used */
 /* Put whatever custom styles you want here */
 }
@@ -60,7 +60,8 @@ $('#someSelectBox').trigger('update');
 In a responsive layout, you may need to change the size / style of the select box.
 The best way to do this is with `matchMedia`. Consider using a [matchMedia polyfill](https://github.com/paulirish/matchMedia.js) for better browser support. The `addListener` extension makes it very easy to update the customSelect:
 ```javascript
-// add a media query listener and trigger a customSelect update whenever the query gets matched or unmatched
+// add a media query listener and trigger a customSelect update whenever the query gets
+// matched or unmatched
 matchMedia('only screen and (max-width: 480px)').addListener(function(list){
     $('#mySelectBox').trigger('update');
 });
@@ -70,9 +71,19 @@ matchMedia('only screen and (max-width: 480px)').addListener(function(list){
 There are a few extra options if you need them
 ```javascript
 $('#someSelectBox').customSelect({
-    customClass: "mySexySelect", // Specify a different class name (default is 'customSelect')
-    mapClass:    true, // Copy any existing classes from the given select element (defaults to true)
-    mapStyle:    true // Copy the value of the style attribute from the given select element (defaults to true)
+    // Specify a different class name (default is 'customSelect')
+    customClass: "mySexySelect",
+
+    // Copy any existing classes from the given select element (defaults to true)
+    mapClass:    true,
+
+    // Copy the value of the style attribute from the given select element (defaults to
+    // true)
+    mapStyle:    true,
+
+    // Allows add a html icon in the custom select box. It's useful if you are using
+    // a sprite or a iconic font
+    iconHTML:    ''
 });
 ```
 
@@ -107,7 +118,7 @@ Version 0.3.3 (04/03/2013)
 Version 0.3.2 (28/02/2013)
  * Patch for incorrect select height caused by 0.3.0
  * Support for `disabled` select boxes via `customSelectDisabled` class
- 
+
 Version 0.3.0 (12/02/2013)
  * Refactored coding style
  * Changed filenames to standard jQuery plugin naming conventions
@@ -145,6 +156,6 @@ Copyright 2013 Adam Coulombe
 Dual licensed under the MIT and GPL licenses:
  *    http://www.gnu.org/licenses/gpl.html
  *    http://www.opensource.org/licenses/mit-license.php
-   
+
 
 This lightweight, unintrusive technique uses the native select box functionality of the web browser, and overlays a stylable <span> element in order to acheive your desired look. Since it makes use of default browser functionality,it can be treated just like any ordinary HTML select box.

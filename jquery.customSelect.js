@@ -20,7 +20,8 @@
             var defaults = {
                     customClass: 'customSelect',
                     mapClass:    true,
-                    mapStyle:    true
+                    mapStyle:    true,
+                    iconHTML:    ''
             },
             options = $.extend(defaults, options),
             prefix = options.customClass,
@@ -62,6 +63,9 @@
                 }
                 if (options.mapStyle) {
                     customSelectSpan.attr('style', $select.attr('style'));
+                }
+                if (options.iconHTML) {
+                    customSelectSpan.append(options.iconHTML);
                 }
 
                 $select
