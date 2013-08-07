@@ -1,11 +1,11 @@
 /*!
  * jquery.customSelect() - v0.4.1
  * http://adam.co/lab/jquery/customselect/
- * 2013-05-13
+ * 2013-08-07
  *
  * Copyright 2013 Adam Coulombe
  * @license http://www.opensource.org/licenses/mit-license.html MIT License
- * @license http://www.gnu.org/licenses/gpl.html GPL2 License 
+ * @license http://www.gnu.org/licenses/gpl.html GPL2 License
  */
 
 (function ($) {
@@ -24,22 +24,22 @@
             },
             options = $.extend(defaults, options),
             prefix = options.customClass,
-            changed = function ($select,customSelectSpan) {
+            changed = function ($select, customSelectSpan) {
                 var currentSelected = $select.find(':selected'),
                 customSelectSpanInner = customSelectSpan.children(':first'),
                 html = currentSelected.html() || '&nbsp;';
 
                 customSelectSpanInner.html(html);
-                
+
                 if (currentSelected.attr('disabled')) {
-                	customSelectSpan.addClass(getClass('DisabledOption'));
+                    customSelectSpan.addClass(getClass('DisabledOption'));
                 } else {
-                	customSelectSpan.removeClass(getClass('DisabledOption'));
+                    customSelectSpan.removeClass(getClass('DisabledOption'));
                 }
-                
+
                 setTimeout(function () {
                     customSelectSpan.removeClass(getClass('Open'));
-                    $(document).off('mouseup.'+getClass('Open'));                  
+                    $(document).off('mouseup.'+getClass('Open'));
                 }, 60);
             },
             getClass = function(suffix){
@@ -48,12 +48,14 @@
 
             return this.each(function () {
                 var $select = $(this),
-                    customSelectInnerSpan = $('<span />').addClass(getClass('Inner')),
-                    customSelectSpan = $('<span />');
+                    customSelectInnerSpan = $('<span />', {
+                        'class': getClass('Inner')
+                    }),
+                    customSelectSpan = $('<span />', {
+                        'class': prefix
+                    });
 
                 $select.after(customSelectSpan.append(customSelectInnerSpan));
-                
-                customSelectSpan.addClass(prefix);
 
                 if (options.mapClass) {
                     customSelectSpan.addClass($select.attr('class'));
@@ -65,17 +67,17 @@
                 $select
                     .addClass('hasCustomSelect')
                     .on('update', function () {
-						changed($select,customSelectSpan);
-						
+                        changed($select, customSelectSpan);
+
                         var selectBoxWidth = parseInt($select.outerWidth(), 10) -
                                 (parseInt(customSelectSpan.outerWidth(), 10) -
                                     parseInt(customSelectSpan.width(), 10));
-						
-						// Set to inline-block before calculating outerHeight
-						customSelectSpan.css({
+
+                        // Set to inline-block before calculating outerHeight
+                        customSelectSpan.css({
                             display: 'inline-block'
                         });
-						
+
                         var selectBoxHeight = customSelectSpan.outerHeight();
 
                         if ($select.attr('disabled')) {
@@ -100,15 +102,14 @@
                     })
                     .on('change', function () {
                         customSelectSpan.addClass(getClass('Changed'));
-                        changed($select,customSelectSpan);
+                        changed($select, customSelectSpan);
                     })
                     .on('keyup', function (e) {
                         if(!customSelectSpan.hasClass(getClass('Open'))){
-                            $select.blur();
-                            $select.focus();
+                            $select.blur().focus();
                         }else{
-                            if(e.which==13||e.which==27){
-                                changed($select,customSelectSpan);
+                            if(e.which == 13 || e.which == 27){
+                                changed($select, customSelectSpan);
                             }
                         }
                     })
@@ -116,19 +117,19 @@
                         customSelectSpan.removeClass(getClass('Changed'));
                     })
                     .on('mouseup', function (e) {
-                        
-                        if( !customSelectSpan.hasClass(getClass('Open'))){
+
+                        if(!customSelectSpan.hasClass(getClass('Open'))){
                             // if FF and there are other selects open, just apply focus
-                            if($('.'+getClass('Open')).not(customSelectSpan).length>0 && typeof InstallTrigger !== 'undefined'){
+                            if($('.'+getClass('Open')).not(customSelectSpan).length>0 && typeof InstallTrigger !== 'undefined') {
                                 $select.focus();
-                            }else{
+                            } else {
                                 customSelectSpan.addClass(getClass('Open'));
                                 e.stopPropagation();
                                 $(document).one('mouseup.'+getClass('Open'), function (e) {
-                                    if( e.target != $select.get(0) && $.inArray(e.target,$select.find('*').get()) < 0 ){
+                                    if( e.target != $select.get(0) && $.inArray(e.target, $select.find('*').get()) < 0 ) {
                                         $select.blur();
-                                    }else{
-                                        changed($select,customSelectSpan);
+                                    } else {
+                                        changed($select, customSelectSpan);
                                     }
                                 });
                             }
